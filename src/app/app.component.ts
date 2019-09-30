@@ -39,10 +39,6 @@ export class AppComponent {
 
   actualizarEmpleado(empleado: Empleado, i: number) {
     this.empleados[i] = empleado;
-    console.log('Empleado', empleado, i);
-    console.log('Lista', this.empleados);
-    
-    
   }
 
 }

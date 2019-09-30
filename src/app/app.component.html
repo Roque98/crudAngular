@@ -32,8 +32,8 @@
                     <tr *ngFor="let empleado of empleados; let i = index">
 
                         <!-- No editar -->
-                        <td *ngIf="!empleado.editar">{{ empleado.nombre }}</td>
-                        <td *ngIf="!empleado.editar">{{ empleado.puesto }}</td>
+                        <td (click)="empleado.editar = !empleado.editar" class="pointer" *ngIf="!empleado.editar">{{ empleado.nombre }}</td>
+                        <td (click)="empleado.editar = !empleado.editar" class="pointer" *ngIf="!empleado.editar">{{ empleado.puesto }}</td>
 
                         <!-- editar -->
                         <td *ngIf="empleado.editar"><input type="text" class="form-control" placeholder="nombre" [(ngModel)]="empleado.nombre" [value]="empleado.nombre"></td>
@@ -41,7 +41,6 @@
 
                         <!-- botones -->
                         <td>
-                            <button *ngIf="!empleado.editar" type="button" class="btn btn-warning mr-1" (click)="empleado.editar = !empleado.editar">Editar</button>
                             <button *ngIf="empleado.editar" type="button" class="btn btn-success mr-1" (click)="empleado.editar = !empleado.editar">Guardar</button>
                             <button (click)="eliminarEmpleado(empleado.nombre)" type="button" class="btn btn-danger">Elminar</button>
                         </td>
