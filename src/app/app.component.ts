@@ -1,44 +1,62 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Empleado } from './interface/empleado.interface';
+import { EmpledosService } from './services/empledos.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   title = 'Angular crud';
   msg = 'mensaje aqui';
 
-  empleados: Empleado[] = [
-    { nombre: 'Roque', puesto: 'Administrador', editar: false },
-    { nombre: 'Cesar', puesto: 'Diseñador', editar: false },
-    { nombre: 'Angelo', puesto: 'Programador', editar: false }
-  ];
 
   model: Empleado = {
     nombre : '',
     puesto : ''
   };
 
+  constructor(public empledosService: EmpledosService) {}
+
+  ngOnInit(): void {
+    this.getEmpleados();
+  }
+
+  getEmpleados() {
+    this.empledosService.getEmpleados().subscribe((res) => {
+      this.empledosService.empleados = res['usuarios'] as Empleado[];
+      
+    });
+  }
+
   closeAlert() {
+  }
+
+  crearEmpleado() {
+    this.empledosService.postEmpleado(this.model)
+      .subscribe(data => {
+        console.log(data);
+        this.getEmpleados();
+      });
+  }
+
+  eliminarEmpleado(id: string) {
+    this.empledosService.deleteEmpleado(id)
+      .subscribe(data => {
+        console.log(data);
+        this.getEmpleados();
+      });
+
+    
     
   }
 
-  agregarEmpleado(): void {
-    this.empleados.push({...this.model});
-    this.model.nombre = '';
-    this.model.puesto = '';
-
-  }
-
-  eliminarEmpleado(nombre: string) {
-    this.empleados = this.empleados.filter( empleado => empleado.nombre !== nombre );
-  }
-
-  actualizarEmpleado(empleado: Empleado, i: number) {
-    this.empleados[i] = empleado;
+  actualizarEmpleado(empleado: Empleado, id: string) {
+    this.empledosService.putEmpleado(id, this.model);
   }
 
 }
+

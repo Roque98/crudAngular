@@ -29,7 +29,7 @@
                     <th>ACCIONES</th>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let empleado of empleados; let i = index">
+                    <tr *ngFor="let empleado of empledosService.empleados; let i = index">
 
                         <!-- No editar -->
                         <td (click)="empleado.editar = !empleado.editar" class="pointer" *ngIf="!empleado.editar">{{ empleado.nombre }}</td>
@@ -41,8 +41,8 @@
 
                         <!-- botones -->
                         <td>
-                            <button *ngIf="empleado.editar" type="button" class="btn btn-success mr-1" (click)="empleado.editar = !empleado.editar">Guardar</button>
-                            <button (click)="eliminarEmpleado(empleado.nombre)" type="button" class="btn btn-danger">Elminar</button>
+                            <button (click)="actualizarEmpleado(empleado._id, empleado)" *ngIf="empleado.editar" type="button" class="btn btn-success mr-1" (click)="empleado.editar = !empleado.editar">Guardar</button>
+                            <button (click)="eliminarEmpleado(empleado._id)" type="button" class="btn btn-danger">Elminar</button>
                         </td>
                     </tr>
 
@@ -50,7 +50,7 @@
                     <tr>
                         <td> <input [(ngModel)]="model.nombre" type="text" class="form-control" name="nombre" id="nombre" aria-describedby="nombre" placeholder="Introduce el nombre"></td>
                         <td> <input [(ngModel)]="model.puesto" type="text" class="form-control" name="puesto" id="puesto" aria-describedby="puesto" placeholder="Introduce el cargo"></td>
-                        <td> <button (click)="agregarEmpleado()" type="button" class="btn btn-primary">Agreagar</button> </td>
+                        <td> <button (click)="crearEmpleado()" type="button" class="btn btn-primary">Agreagar</button> </td>
                     </tr>
 
                 </tbody>
